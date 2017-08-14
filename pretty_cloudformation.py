@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # This program takes a Cloudformation template and makes it pretty by using the PyYaml library.
+# The output is printed to STDOUT
 # Usage: ./pretty_cloudformation.py example.yml
 
 # Many thanks to Anthon for this StackOverflow answer: https://stackoverflow.com/a/43768117/3101224
