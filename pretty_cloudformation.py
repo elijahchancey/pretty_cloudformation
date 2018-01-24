@@ -13,7 +13,6 @@ parser.add_argument('filename', help='name of yaml file')
 
 args = parser.parse_args()
 
-
 class GenericScalar:
     def __init__(self, value, tag, style=None):
         self._value = value
@@ -50,4 +49,4 @@ yaml.safe_dump(
     default_flow_style=False,
     allow_unicode=True,
     indent=2,
-    width=200)
+    width=300)

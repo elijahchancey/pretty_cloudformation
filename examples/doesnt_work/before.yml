@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Conditions: 
+  CreateWebDNSRecords: !Equals [ !Ref EnvLabel2, web ]
+Description: Repository for Docker Images
+Resources:
+  Repository:
+    Properties:
+      RepositoryName: pied_piper
+      RepositoryPolicyText:
+        Statement:
+        - Action: ['ecr:GetDownloadUrlForLayer', 'ecr:BatchGetImage', 'ecr:BatchCheckLayerAvailability', 'ecr:PutImage', 'ecr:InitiateLayerUpload', 'ecr:UploadLayerPart', 'ecr:CompleteLayerUpload', 'ecr:GetAuthorizationToken']
+          Effect: Allow
+          Principal:
+            AWS: 
+              - !ImportValue UserArn
+          Sid: AllowPushPull
+        Version: '2008-10-17'
+    Type: AWS::ECR::Repository
