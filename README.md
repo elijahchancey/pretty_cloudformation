@@ -1,4 +1,4 @@
-This program takes a Cloudformation template and makes it pretty by using the PyYaml library. It ignores all custom Cloudformation tags, e.g. !ImportValue. The output is printed to STDOUT.
+This program takes a Cloudformation template and makes it pretty by using the PyYaml library. It correctly handles custom Cloudformation tags, e.g. !ImportValue. These tags are preserved in the output. The output is printed to STDOUT.
 
 Many thanks to Anthon for this StackOverflow answer: https://stackoverflow.com/a/43768117/3101224
 
