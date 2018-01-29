@@ -9,7 +9,7 @@ import argparse
 parser = argparse.ArgumentParser(
     description='Make a Cloudformation YAML template pretty.')
 
-parser.add_argument('filename', help='name of yaml file')
+parser.add_argument('filename', nargs='+', help='name of yaml file')
 
 args = parser.parse_args()
 
@@ -38,15 +38,17 @@ yaml.add_multi_constructor('', default_constructor, Loader=yaml.SafeLoader)
 yaml.add_representer(
     GenericScalar, GenericScalar.to_yaml, Dumper=yaml.SafeDumper)
 
-with open(args.filename, 'r') as myfile:
-    data = myfile.read()
+for filename in args.filename:
+  with open(filename, 'r') as myfile:
+      data = myfile.read()
 
-data = yaml.safe_load(data)
+  data = yaml.safe_load(data)
 
-yaml.safe_dump(
-    data,
-    sys.stdout,
-    default_flow_style=False,
-    allow_unicode=True,
-    indent=2,
-    width=300)
+  yaml.safe_dump(
+      data,
+      sys.stdout,
+      default_flow_style=False,
+      allow_unicode=True,
+      indent=2,
+      width=300)
+  print("")
