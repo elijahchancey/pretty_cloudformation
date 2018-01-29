@@ -60,7 +60,7 @@ for filename in args.filename:
       indent=2,
       width=300)
 
-  if out:
+  if args.inplace:
     out.close()
 
   print("")
