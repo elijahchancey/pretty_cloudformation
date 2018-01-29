@@ -10,6 +10,8 @@ parser = argparse.ArgumentParser(
     description='Make a Cloudformation YAML template pretty.')
 
 parser.add_argument('filename', nargs='+', help='name of yaml file')
+parser.add_argument("-i", "--inplace", help="inplace file editing",
+                    action="store_true")
 
 args = parser.parse_args()
 
@@ -44,11 +46,21 @@ for filename in args.filename:
 
   data = yaml.safe_load(data)
 
+  if args.inplace:
+    out = open(filename , 'w')
+  else:
+    out = sys.stdout
+
+
   yaml.safe_dump(
       data,
-      sys.stdout,
+      out,
       default_flow_style=False,
       allow_unicode=True,
       indent=2,
       width=300)
+
+  if out:
+    out.close()
+
   print("")
