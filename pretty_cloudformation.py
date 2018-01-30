@@ -42,17 +42,11 @@ class GenericSequence:
             data._tag, data._value, flow_style=data._flow_style)
 
 def default_constructor(loader, tag_suffix, node):
-    print('Loader:{}, tag_suffic:{}, node:{}'.format(loader, tag_suffix, node))
-
     if isinstance(node, yaml.ScalarNode):
         return GenericScalar(node.value, tag_suffix, style=node.style)
     elif isinstance(node, yaml.SequenceNode):
-        # print(yaml.dump(node))
         return GenericSequence(node.value, tag_suffix, flow_style=node.flow_style)
     else:
-        # import json
-        # print(node)
-        # print(node.__class__)
         raise NotImplementedError('Node: ' + str(type(node)))
 
 
