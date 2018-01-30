@@ -32,13 +32,16 @@ def default_constructor(loader, tag_suffix, node):
     if isinstance(node, yaml.ScalarNode):
         return GenericScalar(node.value, tag_suffix, style=node.style)
     else:
+        import json
+        print(node)
         raise NotImplementedError('Node: ' + str(type(node)))
 
 
 yaml.add_multi_constructor('', default_constructor, Loader=yaml.SafeLoader)
 
 yaml.add_representer(
-    GenericScalar, GenericScalar.to_yaml, Dumper=yaml.SafeDumper)
+    GenericScalar, GenericScalar.to_yaml, Dumper=yaml.SafeDumper
+)
 
 for filename in args.filename:
   with open(filename, 'r') as myfile:
@@ -51,6 +54,7 @@ for filename in args.filename:
   else:
     out = sys.stdout
 
+  print("Processing: {}".format(filename))
 
   yaml.safe_dump(
       data,
@@ -63,4 +67,5 @@ for filename in args.filename:
   if args.inplace:
     out.close()
 
-  print("")
+  if not args.inplace:
+    print("")
