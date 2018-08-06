@@ -3,7 +3,7 @@
 # Usage: ./pretty_cloudformation.py example.yml
 
 import sys
-import yaml
+import ruamel.yaml
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -42,29 +42,29 @@ class GenericSequence:
             data._tag, data._value, flow_style=data._flow_style)
 
 def default_constructor(loader, tag_suffix, node):
-    if isinstance(node, yaml.ScalarNode):
+    if isinstance(node, ruamel.yaml.ScalarNode):
         return GenericScalar(node.value, tag_suffix, style=node.style)
-    elif isinstance(node, yaml.SequenceNode):
+    elif isinstance(node, ruamel.yaml.SequenceNode):
         return GenericSequence(node.value, tag_suffix, flow_style=node.flow_style)
     else:
         raise NotImplementedError('Node: ' + str(type(node)))
 
 
-yaml.add_multi_constructor('', default_constructor, Loader=yaml.SafeLoader)
+ruamel.yaml.add_multi_constructor('', default_constructor, Loader=ruamel.yaml.SafeLoader)
 
-yaml.add_representer(
-    GenericScalar, GenericScalar.to_yaml, Dumper=yaml.SafeDumper
+ruamel.yaml.add_representer(
+    GenericScalar, GenericScalar.to_yaml, Dumper=ruamel.yaml.SafeDumper
 )
 
-yaml.add_representer(
-    GenericSequence, GenericSequence.to_yaml, Dumper=yaml.SafeDumper
+ruamel.yaml.add_representer(
+    GenericSequence, GenericSequence.to_yaml, Dumper=ruamel.yaml.SafeDumper
 )
 
 for filename in args.filename:
   with open(filename, 'r') as myfile:
       data = myfile.read()
 
-  data = yaml.safe_load(data)
+  data = ruamel.yaml.safe_load(data)
 
   if args.inplace:
     out = open(filename , 'w')
@@ -73,7 +73,7 @@ for filename in args.filename:
 
   print("Processing: {}".format(filename))
 
-  yaml.safe_dump(
+  ruamel.yaml.safe_dump(
       data,
       out,
       default_flow_style=False,
